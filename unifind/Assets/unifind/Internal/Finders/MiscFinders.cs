@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Unifind;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -341,7 +340,8 @@ namespace Unifind.Internal
         [FuzzyFinderMethod]
         public static async void ChangeEditorLayout()
         {
-            var chosenPath = await ChooseAssetWithLabel("Change Editor Layout", "l:SvEditorLayout");
+            // Note that we assume here that user manually sets asset labels with "EditorLayout"
+            var chosenPath = await ChooseAssetWithLabel("Change Editor Layout", "l:EditorLayout");
 
             if (chosenPath != null)
             {
@@ -363,7 +363,8 @@ namespace Unifind.Internal
             {
                 case CreateFileTypes.MonoBehaviour:
                 {
-                    var chosenPath = await ChooseAssetWithLabel("Choose C# Template", "l:SvMonoBehaviourTemplate");
+                    // Note that we assume here that user manually sets asset labels with "MonoBehaviourTemplate"
+                    var chosenPath = await ChooseAssetWithLabel("Choose C# Template", "l:MonoBehaviourTemplate");
                     var newScriptPath = "Assets/NewBehaviourScript.cs";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
@@ -375,7 +376,8 @@ namespace Unifind.Internal
                 }
                 case CreateFileTypes.Shader:
                 {
-                    var chosenPath = await ChooseAssetWithLabel("Choose Shader Template", "l:SvShaderTemplate");
+                    // Note that we assume here that user manually sets asset labels with "ShaderTemplate"
+                    var chosenPath = await ChooseAssetWithLabel("Choose Shader Template", "l:ShaderTemplate");
                     var newScriptPath = "Assets/NewShader.shader";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
