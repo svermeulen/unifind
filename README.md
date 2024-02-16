@@ -19,6 +19,7 @@ Custom Actions
 
 There is a set of default actions that you can see in the screenshot above, but the main purpose of Unifind is to make it easy to define custom user actions.  You can do this by just defining a static method with the attribute `[FuzzyFinderMethod]` anywhere in your project.  For example:
 
+```csharp
   using UnityEngine;
   using Unifind;
 
@@ -30,9 +31,11 @@ There is a set of default actions that you can see in the screenshot above, but 
           Debug.Log("hello world!");
       }
   }
+```
 
 You can also invoke the fuzzy finder manually from an existing editor script, or from a `FuzzyFinderMethod` (to create a nested menu) like this:
 
+```csharp
   using UnityEngine;
   using Unifind;
 
@@ -46,5 +49,6 @@ You can also invoke the fuzzy finder manually from an existing editor script, or
           Debug.LogFormat("You chose {0}", choice);
       }
   }
+```
 
 For more advanced usage see the default finders in the file `MiscFinders.cs`
