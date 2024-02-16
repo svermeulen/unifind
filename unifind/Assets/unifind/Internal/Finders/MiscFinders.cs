@@ -133,7 +133,7 @@ namespace Unifind.Internal
 
                 if (obj == null)
                 {
-                    Log.Error("Expected to find file at path: {path}", chosenPath);
+                    Log.Error("Expected to find file at path: {0}", chosenPath);
                 }
                 else
                 {
@@ -250,12 +250,12 @@ namespace Unifind.Internal
 
             if (switchSuccess)
             {
-                Log.Debug("Successfully switched to platform {platform}", chosenTarget.Value);
+                Log.Debug("Successfully switched to platform {0}", chosenTarget.Value);
             }
             else
             {
                 Log.Error(
-                    "Failed to switch to {platform}. Please check if the target platform is installed.",
+                    "Failed to switch to {0}. Please check if the target platform is installed.",
                     chosenTarget.Value
                 );
             }
@@ -348,7 +348,7 @@ namespace Unifind.Internal
                 var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(chosenPath);
                 if (obj == null)
                 {
-                    Log.Error("Expected to find file at path: {path}", chosenPath);
+                    Log.Error("Expected to find file at path: {0}", chosenPath);
                 }
                 else
                 {

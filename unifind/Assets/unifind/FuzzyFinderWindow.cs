@@ -119,7 +119,7 @@ namespace Unifind
             }
             catch (Exception e)
             {
-                Log.Error("Error during OnGUI: {error}", e);
+                Log.Error("Error during OnGUI: {0}", e);
                 Dispose();
             }
         }
@@ -149,7 +149,7 @@ namespace Unifind
             {
                 choice = _entriesFiltered[_selectedIndex];
                 Assert.That(choice != null);
-                Log.Debug("Selected {name}", choice!.Name);
+                Log.Debug("Selected {0}", choice!.Name);
             }
             else
             {
@@ -253,11 +253,11 @@ namespace Unifind
             Assert.That(!_isOpen, "FuzzyFinderWindow is already open");
             _isOpen = true;
 
-            Log.Debug("Opening FuzzyFinderWindow {title}", title);
+            Log.Debug("Opening FuzzyFinderWindow {0}", title);
 
             try
             {
-                using (Log.SpanDebug("Running fuzzy finder {title}", title))
+                using (Log.SpanDebug("Running fuzzy finder {0}", title))
                 {
                     var choice = await SelectImpl2(title, entries);
 
@@ -273,7 +273,7 @@ namespace Unifind
             }
             finally
             {
-                Log.Debug("Completed FuzzyFinderWindow {title}", title);
+                Log.Debug("Completed FuzzyFinderWindow {0}", title);
                 _isOpen = false;
             }
         }

@@ -56,8 +56,8 @@ namespace Unifind.Internal
                 }
 
                 Log.Trace(
-                    "Checking assembly {assemblyName} for methods with attribute '{0}'",
-                    assembly.FullName
+                    "Checking assembly {0} for methods with attribute '{1}'",
+                    assembly.FullName, typeof(T).Name
                 );
 
                 try
@@ -82,7 +82,7 @@ namespace Unifind.Internal
                 catch (Exception exception)
                 {
                     Log.Error(
-                        "Failure when trying to get types from assembly {assemblyName}: {exception}",
+                        "Failure when trying to get types from assembly {0}: {1}",
                         assembly.FullName,
                         exception
                     );
