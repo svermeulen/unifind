@@ -52,3 +52,9 @@ You can also invoke the fuzzy finder manually from an existing editor script, or
 ```
 
 For more advanced usage see the default finders in the file `MiscFinders.cs`
+
+Acknowledgements
+---
+
+* [Unity.Mx](https://github.com/jcs090218/Unity.Mx) for inspiration and some rendering code
+
