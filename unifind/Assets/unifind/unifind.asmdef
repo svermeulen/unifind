@@ -1,0 +1,17 @@
+{
+    "name": "sv-fuzzy-finder",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8d76a8f0a7b6f674bb91f72517b4a087",
+        "GUID:197edfca4a9bb0847b8421f40697818e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
