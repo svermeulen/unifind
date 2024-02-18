@@ -19,5 +19,5 @@ jobs:
       - name: Unity Test Runner
         uses: game-ci/unity-test-runner@v4
         with:
-          projectPath: UnityProject
+          projectPath: unifind
           githubToken: ${{ secrets.GITHUB_TOKEN }}
