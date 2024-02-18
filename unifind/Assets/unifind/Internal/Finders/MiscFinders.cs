@@ -316,7 +316,7 @@ namespace Unifind.Internal
             Selection.activeGameObject = obj;
         }
 
-        static async Task<string?> ChooseAssetWithLabel(string title, string assetLabel)
+        static async Task<string?> TryChooseAssetWithLabel(string title, string assetLabel)
         {
             var entries = new List<FuzzyFinderEntry<string>>();
 
@@ -341,7 +341,7 @@ namespace Unifind.Internal
         public static async void ChangeEditorLayout()
         {
             // Note that we assume here that user manually sets asset labels with "EditorLayout"
-            var chosenPath = await ChooseAssetWithLabel("Change Editor Layout", "l:EditorLayout");
+            var chosenPath = await TryChooseAssetWithLabel("Change Editor Layout", "l:EditorLayout");
 
             if (chosenPath != null)
             {
@@ -357,14 +357,20 @@ namespace Unifind.Internal
             }
         }
 
-        static async Task<UnityEngine.Object> CreateFile(CreateFileTypes createType)
+        static async Task<UnityEngine.Object?> TryCreateFile(CreateFileTypes createType)
         {
             switch (createType)
             {
                 case CreateFileTypes.MonoBehaviour:
                 {
                     // Note that we assume here that user manually sets asset labels with "MonoBehaviourTemplate"
-                    var chosenPath = await ChooseAssetWithLabel("Choose C# Template", "l:MonoBehaviourTemplate");
+                    var chosenPath = await TryChooseAssetWithLabel("Choose C# Template", "l:MonoBehaviourTemplate");
+
+                    if (chosenPath == null)
+                    {
+                        return null;
+                    }
+
                     var newScriptPath = "Assets/NewBehaviourScript.cs";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
@@ -377,7 +383,13 @@ namespace Unifind.Internal
                 case CreateFileTypes.Shader:
                 {
                     // Note that we assume here that user manually sets asset labels with "ShaderTemplate"
-                    var chosenPath = await ChooseAssetWithLabel("Choose Shader Template", "l:ShaderTemplate");
+                    var chosenPath = await TryChooseAssetWithLabel("Choose Shader Template", "l:ShaderTemplate");
+
+                    if (chosenPath == null)
+                    {
+                        return null;
+                    }
+
                     var newScriptPath = "Assets/NewShader.shader";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
@@ -421,8 +433,13 @@ namespace Unifind.Internal
                 "Create File",
                 Enum.GetValues(typeof(CreateFileTypes)).Cast<CreateFileTypes>()
             );
-            var obj = await CreateFile(choice);
-            Selection.activeObject = obj;
+
+            var obj = await TryCreateFile(choice);
+
+            if (obj != null)
+            {
+                Selection.activeObject = obj;
+            }
         }
 
         enum CreateFileTypes
