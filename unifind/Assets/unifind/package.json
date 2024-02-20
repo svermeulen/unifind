@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "displayName": "Unifind",
   "description": "A fuzzy-finder for Unity Editor",
+  "icon": "icon.png",
   "unity": "2022.3",
   "author": {
     "name": "Steve Vermeulen",

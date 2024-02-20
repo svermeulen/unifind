@@ -1,5 +1,5 @@
 
-# Unifind
+![Unifind Header Image](logo.png)
  
 ## Generic Fuzzy Finder for Unity Editor
 
