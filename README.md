@@ -1,5 +1,5 @@
 
-<img align="right" src="logo.png">
+<img align="right" width="128" height="128" src="logo.png">
 
 ## Generic Fuzzy Finder for Unity Editor
 
