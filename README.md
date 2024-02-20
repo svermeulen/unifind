@@ -53,6 +53,27 @@ You can also invoke the fuzzy finder manually from an existing editor script, or
 
 For more advanced usage see the default finders in the file `MiscFinders.cs`
 
+For common actions you might want to define a custom shortcut to execute it directly instead of via the root unifind menu, which you can do like this:
+
+```csharp
+  using UnityEngine;
+  using Unifind;
+
+  public class Foo
+  {
+      [FuzzyFinderMethod]
+      [MenuItem("MyMenu/Fuzzy Finders/Bar &s", false, -1000)]
+      public static async void Bar()
+      {
+          var widgets = new string[] { "Widget 1", "Widget 2", "Widget 3" };
+          var choice = await FuzzyFinderWindow.Select("Choose Widget", widgets);
+          Debug.LogFormat("You chose {0}", choice);
+      }
+  }
+```
+
+Here, we use both [FuzzyFinderMethod] and [MenuItem] so it can be executed either via the root unifind menu or directly with ALT+S
+
 Acknowledgements
 ---
 
