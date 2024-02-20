@@ -21,6 +21,12 @@ namespace Unifind.Internal
             foreach (string guid in sceneGUIDs)
             {
                 string filePath = AssetDatabase.GUIDToAssetPath(guid);
+
+                if (!filePath.StartsWith("Assets/"))
+                {
+                    continue;
+                }
+
                 var fileName = Path.GetFileNameWithoutExtension(filePath);
 
                 entries.Add(new FuzzyFinderEntry<string>(name: fileName, value: filePath));
@@ -308,12 +314,16 @@ namespace Unifind.Internal
         [FuzzyFinderMethod(Name = "Create Game Object")]
         public static async void ChooseCreateGameObject()
         {
-            var choice = await FuzzyFinderWindow.Select(
+            GameObjectTypes? choice = await FuzzyFinderWindow.Select(
                 "Create GameObject",
                 Enum.GetValues(typeof(GameObjectTypes)).Cast<GameObjectTypes>()
             );
-            var obj = CreateGameObject(choice);
-            Selection.activeGameObject = obj;
+
+            if (choice != null)
+            {
+                var obj = CreateGameObject(choice.Value);
+                Selection.activeGameObject = obj;
+            }
         }
 
         static async Task<string?> TryChooseAssetWithLabel(string title, string assetLabel)
@@ -363,14 +373,7 @@ namespace Unifind.Internal
             {
                 case CreateFileTypes.MonoBehaviour:
                 {
-                    // Note that we assume here that user manually sets asset labels with "MonoBehaviourTemplate"
                     var chosenPath = await TryChooseAssetWithLabel("Choose C# Template", "l:MonoBehaviourTemplate");
-
-                    if (chosenPath == null)
-                    {
-                        return null;
-                    }
-
                     var newScriptPath = "Assets/NewBehaviourScript.cs";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
@@ -382,14 +385,7 @@ namespace Unifind.Internal
                 }
                 case CreateFileTypes.Shader:
                 {
-                    // Note that we assume here that user manually sets asset labels with "ShaderTemplate"
                     var chosenPath = await TryChooseAssetWithLabel("Choose Shader Template", "l:ShaderTemplate");
-
-                    if (chosenPath == null)
-                    {
-                        return null;
-                    }
-
                     var newScriptPath = "Assets/NewShader.shader";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
