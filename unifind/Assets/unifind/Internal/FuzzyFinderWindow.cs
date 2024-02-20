@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Unifind.Internal;
 using UnityEditor;
 using UnityEngine;
 
-namespace Unifind
+namespace Unifind.Internal
 {
     public class FuzzyFinderWindow : EditorWindow
     {
@@ -17,24 +16,17 @@ namespace Unifind
         const float IconWidth = 20.0f;
         const float SummaryRatio = 40.0f;
 
-        static readonly Color HoverBgColor =
-            (EditorGUIUtility.isProSkin)
-                ? new Color32(38, 79, 120, 255)
-                : new Color32(153, 201, 239, 255);
-
-        static readonly Color DefaultBgColor =
-            (EditorGUIUtility.isProSkin)
-                ? new Color32(46, 46, 46, 255)
-                : new Color32(180, 180, 180, 255);
-
-        static readonly Color DefaultTextColor =
-            (EditorGUIUtility.isProSkin)
-                ? new Color(46, 46, 46)
-                : // #2E2E2E
-                new Color(0, 0, 0);
-
         // Yes - unfortunately we really do need to mark every private field as NonSerialized
         // to avoid unity only partially restoring state
+
+        [NonSerialized]
+        Color _hoverBgColor;
+
+        [NonSerialized]
+        Color _defaultBgColor;
+
+        [NonSerialized]
+        Color _defaultTextColor;
 
         [NonSerialized]
         GUIStyle _guiStyleHover = new GUIStyle();
@@ -95,8 +87,24 @@ namespace Unifind
 
         public void OnEnable()
         {
-            _guiStyleHover.normal.textColor = DefaultTextColor;
-            _guiStyleDefault.normal.textColor = DefaultTextColor;
+            _hoverBgColor =
+                (EditorGUIUtility.isProSkin)
+                    ? new Color32(38, 79, 120, 255)
+                    : new Color32(153, 201, 239, 255);
+
+            _defaultBgColor =
+                (EditorGUIUtility.isProSkin)
+                    ? new Color32(46, 46, 46, 255)
+                    : new Color32(180, 180, 180, 255);
+
+            _defaultTextColor =
+                (EditorGUIUtility.isProSkin)
+                    ? new Color(46, 46, 46)
+                    : // #2E2E2E
+                    new Color(0, 0, 0);
+
+            _guiStyleHover.normal.textColor = _defaultTextColor;
+            _guiStyleDefault.normal.textColor = _defaultTextColor;
         }
 
         public void OnDisable()
@@ -215,36 +223,7 @@ namespace Unifind
             }
         }
 
-        public static async Task<T?> Select<T>(string title, IEnumerable<T> entries)
-        {
-            var window = EditorWindow.GetWindow<FuzzyFinderWindow>("Fuzzy Finder");
-            var fuzzyEntries = entries
-                .Select(e => new FuzzyFinderEntry<T>(
-                    name: e!.ToString(),
-                    value: e
-                ))
-                .ToList();
-
-            var result = await window.SelectImpl<T>(title, fuzzyEntries);
-
-            if (result != null)
-            {
-                return result.Value;
-            }
-
-            return default;
-        }
-
-        public static Task<FuzzyFinderEntry<T>?> Select<T>(
-            string title,
-            List<FuzzyFinderEntry<T>> entries
-        )
-        {
-            var window = EditorWindow.GetWindow<FuzzyFinderWindow>("Fuzzy Finder");
-            return window.SelectImpl<T>(title, entries);
-        }
-
-        async Task<FuzzyFinderEntry<T>?> SelectImpl<T>(
+        public async Task<FuzzyFinderEntry<T>?> SelectImpl<T>(
             string title,
             List<FuzzyFinderEntry<T>> entries
         )
@@ -412,7 +391,7 @@ namespace Unifind
                     float y = ButtonStartPosition + j * ButtonHeight;
                     var rectMain = new Rect(IconWidth, y, width, height);
 
-                    EditorGUI.DrawRect(rectMain, selected ? HoverBgColor : DefaultBgColor);
+                    EditorGUI.DrawRect(rectMain, selected ? _hoverBgColor : _defaultBgColor);
 
                     float indentation = EditorGUI.IndentedRect(rectMain).x - rectMain.x;
                     _guiStyleHover.fixedWidth = rectMain.width - indentation;
@@ -436,7 +415,7 @@ namespace Unifind
                         IconWidth,
                         ButtonHeight - 1.0f
                     );
-                    EditorGUI.DrawRect(rectIcon, selected ? HoverBgColor : DefaultBgColor);
+                    EditorGUI.DrawRect(rectIcon, selected ? _hoverBgColor : _defaultBgColor);
 
                     var iconTexture = string.IsNullOrEmpty(entry.Icon)
                         ? null

@@ -17,11 +17,11 @@ Installation
 Usage
 ---
 
-After adding to your project, by default you can open the fuzzy window either with `alt+d` or by selecting `Window` -> `General` -> `Fuzzy Finder`, after which you should see this popup:
+After adding to your project, by default you can open the fuzzy window either with `alt+d` or by selecting `Window` -> `General` -> `Fuzzy Finder`.  After this appears, select "Unifind Examples" then you should see this:
 
 <img src="screenshot.png?raw=true" alt="Unifind Screenshot"/>
 
-From there, you can enter text to match against the list of actions that have been added.  It will use subsequence matching, so you only need enter the characters in the correct order and don't need to exactly match.
+From there, you can enter text to match against the list of actions.  It will use subsequence matching, so you only need enter the characters in the correct order and don't need to exactly match.
 
 Custom Actions
 ---

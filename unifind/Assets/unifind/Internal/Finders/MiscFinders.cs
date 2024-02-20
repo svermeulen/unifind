@@ -11,7 +11,7 @@ namespace Unifind.Internal
 {
     public static class MiscFinders
     {
-        [FuzzyFinderMethod]
+        [FuzzyFinderAction(GroupId = "UnifindExample")]
         public static async void OpenScene()
         {
             var sceneGUIDs = AssetDatabase.FindAssets("t:Scene");
@@ -32,7 +32,7 @@ namespace Unifind.Internal
                 entries.Add(new FuzzyFinderEntry<string>(name: fileName, value: filePath));
             }
 
-            var choice = await FuzzyFinderWindow.Select("Open Scene", entries);
+            var choice = await FuzzyFinder.UserSelect("Open Scene", entries);
 
             if (choice != null)
             {
@@ -45,55 +45,55 @@ namespace Unifind.Internal
             }
         }
 
-        [FuzzyFinderMethod(Name = "Files - All")]
+        [FuzzyFinderAction(Name = "Files - All", GroupId = "UnifindExample")]
         public static void SelectFileFromAll()
         {
             SelectFile(null);
         }
 
-        [FuzzyFinderMethod(Name = "Files - MonoBehaviour")]
+        [FuzzyFinderAction(Name = "Files - MonoBehaviour", GroupId = "UnifindExample")]
         public static void SelectFileMonoBehaviour()
         {
             SelectFile("t:MonoScript");
         }
 
-        [FuzzyFinderMethod(Name = "Files - Texture")]
+        [FuzzyFinderAction(Name = "Files - Texture", GroupId = "UnifindExample")]
         public static void SelectFileTexture()
         {
             SelectFile("t:Texture");
         }
 
-        [FuzzyFinderMethod(Name = "Files - Shader")]
+        [FuzzyFinderAction(Name = "Files - Shader", GroupId = "UnifindExample")]
         public static void SelectFileShader()
         {
             SelectFile("t:Shader");
         }
 
-        [FuzzyFinderMethod(Name = "Files - Animation")]
+        [FuzzyFinderAction(Name = "Files - Animation", GroupId = "UnifindExample")]
         public static void SelectFileAnimation()
         {
             SelectFile("t:Animation");
         }
 
-        [FuzzyFinderMethod(Name = "Files - Animator")]
+        [FuzzyFinderAction(Name = "Files - Animator", GroupId = "UnifindExample")]
         public static void SelectFileAnimator()
         {
             SelectFile("t:Animator");
         }
 
-        [FuzzyFinderMethod(Name = "Files - Prefab")]
+        [FuzzyFinderAction(Name = "Files - Prefab", GroupId = "UnifindExample")]
         public static void SelectFilePrefab()
         {
             SelectFile("t:Prefab");
         }
 
-        [FuzzyFinderMethod(Name = "Files - AudioClip")]
+        [FuzzyFinderAction(Name = "Files - AudioClip", GroupId = "UnifindExample")]
         public static void SelectFileAudioClip()
         {
             SelectFile("t:AudioClip");
         }
 
-        [FuzzyFinderMethod(Name = "Files - ScriptableObject")]
+        [FuzzyFinderAction(Name = "Files - ScriptableObject", GroupId = "UnifindExample")]
         public static void SelectFileScriptableObject()
         {
             SelectFile("t:ScriptableObject");
@@ -126,7 +126,7 @@ namespace Unifind.Internal
             }
 
             var title = string.Format("Files ({0})", filter);
-            var chosenPath = (await FuzzyFinderWindow.Select(title, entries))?.Value;
+            var chosenPath = (await FuzzyFinder.UserSelect(title, entries))?.Value;
 
             if (chosenPath == null)
             {
@@ -147,19 +147,19 @@ namespace Unifind.Internal
             }
         }
 
-        [FuzzyFinderMethod(Name = "Select Scene Object - MonoBehaviour")]
+        [FuzzyFinderAction(Name = "Select Scene Object - MonoBehaviour", GroupId = "UnifindExample")]
         public static void SelectSceneObjectMonoBehaviour()
         {
             SelectSceneObject<MonoBehaviour>(SceneObjectDisplayMode.TypeName);
         }
 
-        [FuzzyFinderMethod(Name = "Select Scene Object - Transform")]
+        [FuzzyFinderAction(Name = "Select Scene Object - Transform", GroupId = "UnifindExample")]
         public static void SelectSceneObjectTransform()
         {
             SelectSceneObject<Transform>(SceneObjectDisplayMode.GameObjectName);
         }
 
-        [FuzzyFinderMethod(Name = "Select Scene Object - Camera")]
+        [FuzzyFinderAction(Name = "Select Scene Object - Camera", GroupId = "UnifindExample")]
         public static void SelectSceneObjectCamera()
         {
             SelectSceneObject<Camera>(SceneObjectDisplayMode.GameObjectName);
@@ -206,7 +206,7 @@ namespace Unifind.Internal
             }
 
             var title = string.Format("Scene Heirarchy - {0}", typeof(T).Name);
-            var chosenObj = (await FuzzyFinderWindow.Select(title, entries))?.Value;
+            var chosenObj = (await FuzzyFinder.UserSelect(title, entries))?.Value;
 
             if (chosenObj != null)
             {
@@ -214,7 +214,7 @@ namespace Unifind.Internal
             }
         }
 
-        [FuzzyFinderMethod]
+        [FuzzyFinderAction(Name = "Change Platform", GroupId = "UnifindExample")]
         public static async void ChangePlatform()
         {
             var entries = new List<FuzzyFinderEntry<BuildTarget>>();
@@ -237,7 +237,7 @@ namespace Unifind.Internal
                 );
             }
 
-            var chosenTarget = (await FuzzyFinderWindow.Select("Change Platform", entries))?.Value;
+            var chosenTarget = (await FuzzyFinder.UserSelect("Change Platform", entries))?.Value;
 
             if (chosenTarget == null)
             {
@@ -311,10 +311,10 @@ namespace Unifind.Internal
             }
         }
 
-        [FuzzyFinderMethod(Name = "Create Game Object")]
+        [FuzzyFinderAction(Name = "Create Game Object", GroupId = "UnifindExample")]
         public static async void ChooseCreateGameObject()
         {
-            var choice = await FuzzyFinderWindow.Select(
+            var choice = await FuzzyFinder.UserSelect(
                 "Create GameObject",
                 Enum.GetValues(typeof(GameObjectTypes)).Cast<GameObjectTypes?>()
             );
@@ -343,11 +343,11 @@ namespace Unifind.Internal
             }
 
             return (
-                await FuzzyFinderWindow.Select(title, entries)
+                await FuzzyFinder.UserSelect(title, entries)
             )?.Value;
         }
 
-        [FuzzyFinderMethod]
+        [FuzzyFinderAction(Name = "Change Editor Layout", GroupId = "UnifindExample")]
         public static async void ChangeEditorLayout()
         {
             // Note that we assume here that user manually sets asset labels with "EditorLayout"
@@ -374,6 +374,12 @@ namespace Unifind.Internal
                 case CreateFileTypes.MonoBehaviour:
                 {
                     var chosenPath = await TryChooseAssetWithLabel("Choose C# Template", "l:MonoBehaviourTemplate");
+
+                    if (chosenPath == null)
+                    {
+                        return null;
+                    }
+
                     var newScriptPath = "Assets/NewBehaviourScript.cs";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
@@ -386,6 +392,12 @@ namespace Unifind.Internal
                 case CreateFileTypes.Shader:
                 {
                     var chosenPath = await TryChooseAssetWithLabel("Choose Shader Template", "l:ShaderTemplate");
+
+                    if (chosenPath == null)
+                    {
+                        return null;
+                    }
+
                     var newScriptPath = "Assets/NewShader.shader";
 
                     ProjectWindowUtil.CreateScriptAssetFromTemplateFile(
@@ -422,20 +434,27 @@ namespace Unifind.Internal
             }
         }
 
-        [FuzzyFinderMethod(Name = "Create File")]
+        [FuzzyFinderAction(Name = "Create File", GroupId = "UnifindExample")]
         public static async void ChooseCreateFile()
         {
-            var choice = await FuzzyFinderWindow.Select(
+            var choice = await FuzzyFinder.UserSelect(
                 "Create File",
-                Enum.GetValues(typeof(CreateFileTypes)).Cast<CreateFileTypes>()
+                Enum.GetValues(typeof(CreateFileTypes)).Cast<CreateFileTypes?>()
             );
 
-            var obj = await TryCreateFile(choice);
-
-            if (obj != null)
+            if (choice == null)
             {
-                Selection.activeObject = obj;
+                return;
             }
+
+            var obj = await TryCreateFile(choice.Value);
+
+            if (obj == null)
+            {
+                return;
+            }
+
+            Selection.activeObject = obj;
         }
 
         enum CreateFileTypes
