@@ -26,7 +26,9 @@ From there, you can enter text to match against the list of actions.  It will us
 Custom Actions
 ---
 
-There is a set of default actions that you can see in the screenshot above, but the main purpose of Unifind is to make it easy to define custom user actions.  You can do this by just defining a static method with the attribute `[FuzzyFinderMethod]` anywhere in your project.  For example:
+There is a set of default actions that you can see in the screenshot above, but the main purpose of Unifind is to make it easy to define custom user actions.  Unifind doesn't come with any default actions so that you can only add the actions that help with your specific workflow.  The only default action is the "Unifind Examples" action.
+
+To add your own root action, you can define a static method anywhere in your project with the attribute `[FuzzyFinderAction]` anywhere in your project.  For example:
 
 ```csharp
   using UnityEngine;
@@ -34,7 +36,7 @@ There is a set of default actions that you can see in the screenshot above, but 
 
   public class Foo
   {
-      [FuzzyFinderMethod]
+      [FuzzyFinderAction]
       public static void Bar()
       {
           Debug.Log("hello world!");
@@ -42,7 +44,7 @@ There is a set of default actions that you can see in the screenshot above, but 
   }
 ```
 
-You can also invoke the fuzzy finder manually from an existing editor script, or from a `FuzzyFinderMethod` (to create a nested menu) like this:
+You can also invoke the fuzzy finder manually from an existing editor script, or from a `FuzzyFinderAction` (to create a nested menu) like this:
 
 ```csharp
   using UnityEngine;
@@ -50,17 +52,17 @@ You can also invoke the fuzzy finder manually from an existing editor script, or
 
   public class Foo
   {
-      [FuzzyFinderMethod]
+      [FuzzyFinderAction]
       public static async void Bar()
       {
           var widgets = new string[] { "Widget 1", "Widget 2", "Widget 3" };
-          var choice = await FuzzyFinderWindow.Select("Choose Widget", widgets);
+          var choice = await FuzzyFinder.UserSelect("Choose Widget", widgets);
           Debug.LogFormat("You chose {0}", choice);
       }
   }
 ```
 
-For more advanced usage see the default finders in the file `MiscFinders.cs`
+For more advanced usage see the default finders in the file `ExampleFinders.cs`
 
 For common actions you might want to define a custom shortcut to execute it directly instead of via the root unifind menu, which you can do like this:
 
@@ -70,18 +72,23 @@ For common actions you might want to define a custom shortcut to execute it dire
 
   public class Foo
   {
-      [FuzzyFinderMethod]
+      [FuzzyFinderAction]
       [MenuItem("MyMenu/Fuzzy Finders/Bar &s", false, -1000)]
       public static async void Bar()
       {
           var widgets = new string[] { "Widget 1", "Widget 2", "Widget 3" };
-          var choice = await FuzzyFinderWindow.Select("Choose Widget", widgets);
+          var choice = await FuzzyFinder.UserSelect("Choose Widget", widgets);
           Debug.LogFormat("You chose {0}", choice);
       }
   }
 ```
 
-Here, we use both [FuzzyFinderMethod] and [MenuItem] so it can be executed either via the root unifind menu or directly with ALT+S
+Here, we use both [FuzzyFinderAction] and [MenuItem] so it can be executed either via the root unifind menu or directly with ALT+S
+
+Action Groups
+---
+
+
 
 Acknowledgements
 ---
