@@ -1,9 +1,7 @@
 
-# Unifind
+# Unifind<img align="right" width="128" height="128" src="logo.png">
 
 ## Generic Fuzzy Finder for Unity Editor
-
-<img align="right" width="128" height="128" src="logo.png">
 
 Unifind is just a simple way to fuzzy-select from a list of items from inside a Unity editor script.
 
