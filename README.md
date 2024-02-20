@@ -5,6 +5,15 @@
 
 Unifind is just a simple way to fuzzy-select from a list of items from inside a Unity editor script.
 
+Installation
+---
+
+1. The package is available on the [openupm registry](https://openupm.com). It's recommended to install it via [openupm-cli](https://github.com/openupm/openupm-cli).
+2. Execute the openum command.
+    - ```
+      openupm add com.svermeulen.unifind
+      ```
+
 Usage
 ---
 
