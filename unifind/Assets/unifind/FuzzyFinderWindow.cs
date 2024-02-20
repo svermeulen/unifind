@@ -216,12 +216,11 @@ namespace Unifind
         }
 
         public static async Task<T?> Select<T>(string title, IEnumerable<T> entries)
-            where T : notnull
         {
             var window = EditorWindow.GetWindow<FuzzyFinderWindow>("Fuzzy Finder");
             var fuzzyEntries = entries
                 .Select(e => new FuzzyFinderEntry<T>(
-                    name: e.ToString(),
+                    name: e!.ToString(),
                     value: e
                 ))
                 .ToList();

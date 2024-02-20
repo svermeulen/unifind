@@ -314,9 +314,9 @@ namespace Unifind.Internal
         [FuzzyFinderMethod(Name = "Create Game Object")]
         public static async void ChooseCreateGameObject()
         {
-            GameObjectTypes? choice = await FuzzyFinderWindow.Select(
+            var choice = await FuzzyFinderWindow.Select(
                 "Create GameObject",
-                Enum.GetValues(typeof(GameObjectTypes)).Cast<GameObjectTypes>()
+                Enum.GetValues(typeof(GameObjectTypes)).Cast<GameObjectTypes?>()
             );
 
             if (choice != null)
