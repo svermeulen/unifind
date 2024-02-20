@@ -26,7 +26,7 @@ From there, you can enter text to match against the list of actions.  It will us
 Custom Actions
 ---
 
-There is a set of default actions that you can see in the screenshot above, but the main purpose of Unifind is to make it easy to define custom user actions.  Unifind doesn't come with any default actions so that you can only add the actions that help with your specific workflow.  The only default action is the "Unifind Examples" action.
+There is a set of example actions that you can see in the screenshot above, but the main purpose of Unifind is to make it easy to define custom user actions.  The only default action is the "Unifind Examples" action.  This is because it's probably better for you to add your own actions that help with your specific workflow.
 
 To add your own root action, you can define a static method anywhere in your project with the attribute `[FuzzyFinderAction]` anywhere in your project.  For example:
 
