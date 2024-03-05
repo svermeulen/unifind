@@ -322,6 +322,7 @@ namespace Unifind.Internal
             if (choice != null)
             {
                 var obj = CreateGameObject(choice.Value);
+                Undo.RegisterCreatedObjectUndo(obj, "Created Game Object");
                 Selection.activeGameObject = obj;
             }
         }
