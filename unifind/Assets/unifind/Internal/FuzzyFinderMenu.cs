@@ -8,15 +8,7 @@ namespace Unifind.Internal
         public static async void OpenRoot()
         {
             var choice = await FuzzyFinder.UserSelect("Fuzzy Finder", FuzzyFinder.GenerateEntriesForGroup(null));
-
-            if (choice == null)
-            {
-                // Cancelled
-            }
-            else
-            {
-                choice.Value();
-            }
+            choice?.Value();
         }
     }
 }

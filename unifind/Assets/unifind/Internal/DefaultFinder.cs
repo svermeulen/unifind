@@ -9,15 +9,7 @@ namespace Unifind.Internal
         {
             var entries = FuzzyFinder.GenerateEntriesForGroup("UnifindExample");
             var choice = await FuzzyFinder.UserSelect("Unifind Examples", entries);
-
-            if (choice == null)
-            {
-                // Cancelled
-            }
-            else
-            {
-                choice.Value();
-            }
+            choice?.Value();
         }
     }
 }

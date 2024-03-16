@@ -6,6 +6,7 @@ using Unifind.Internal;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
+using System.Text;
 
 namespace Unifind
 {
@@ -14,6 +15,20 @@ namespace Unifind
     /// </summary>
     public static class FuzzyFinder
     {
+        static string PascalCaseToTitleCase(string value)
+        {
+            var result = new StringBuilder();
+            result.Append(char.ToUpper(value[0]));
+            for (int i = 1; i < value.Length; i++)
+            {
+                if (char.IsUpper(value[i]) && char.IsLower(value[i - 1]))
+                {
+                    result.Append(' ');
+                }
+                result.Append(value[i]);
+            }
+            return result.ToString();
+        }
         public static List<FuzzyFinderEntry<Action>> GenerateEntriesForGroup(string? groupId)
         {
             var result = new List<FuzzyFinderEntry<Action>>();
@@ -53,7 +68,7 @@ namespace Unifind
                         Action action = () => info.Method.Invoke(null, null);
                         result.Add(
                             new FuzzyFinderEntry<Action>(
-                                name: info.Attribute.Name ?? info.Method.Name,
+                                name: info.Attribute.Name ?? PascalCaseToTitleCase(info.Method.Name),
                                 value: action,
                                 summary: info.Attribute.Summary,
                                 icon: info.Attribute.Icon,

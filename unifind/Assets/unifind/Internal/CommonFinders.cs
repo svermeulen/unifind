@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-
-namespace Unifind.Internal
+using Unifind.Internal;
+namespace Unifind
 {
-    public static class MiscFinders
+    public static class CommonFinders
     {
         [FuzzyFinderAction(GroupId = "UnifindExample")]
         public static async void OpenScene()
@@ -99,7 +99,7 @@ namespace Unifind.Internal
             SelectFile("t:ScriptableObject");
         }
 
-        static async void SelectFile(string? filter)
+        public static async void SelectFile(string? filter)
         {
             string[] guids = AssetDatabase.FindAssets(filter);
 
@@ -114,11 +114,9 @@ namespace Unifind.Internal
                     continue;
                 }
 
-                var fileName = Path.GetFileNameWithoutExtension(path);
-
                 entries.Add(
                     new FuzzyFinderEntry<string>(
-                        name: fileName,
+                        name: Path.GetFileName(path),
                         value: path,
                         summary: path
                     )
@@ -165,13 +163,13 @@ namespace Unifind.Internal
             SelectSceneObject<Camera>(SceneObjectDisplayMode.GameObjectName);
         }
 
-        enum SceneObjectDisplayMode
+        public enum SceneObjectDisplayMode
         {
             GameObjectName,
             TypeName,
         }
 
-        static async void SelectSceneObject<T>(SceneObjectDisplayMode displayMode)
+        public static async void SelectSceneObject<T>(SceneObjectDisplayMode displayMode)
             where T : Component
         {
             var entries = new List<FuzzyFinderEntry<T>>();
@@ -266,7 +264,7 @@ namespace Unifind.Internal
             }
         }
 
-        static GameObject CreateGameObject(GameObjectTypes choice)
+        public static GameObject CreateGameObject(GameObjectTypes choice)
         {
             switch (choice)
             {
@@ -327,7 +325,7 @@ namespace Unifind.Internal
             }
         }
 
-        static async Task<string?> TryChooseAssetWithLabel(string title, string assetLabel)
+        public static async Task<string?> TryChooseAssetWithLabel(string title, string assetLabel)
         {
             var entries = new List<FuzzyFinderEntry<string>>();
 
@@ -368,7 +366,7 @@ namespace Unifind.Internal
             }
         }
 
-        static async Task<UnityEngine.Object?> TryCreateFile(CreateFileTypes createType)
+        public static async Task<UnityEngine.Object?> TryCreateFile(CreateFileTypes createType)
         {
             switch (createType)
             {
@@ -458,7 +456,7 @@ namespace Unifind.Internal
             Selection.activeObject = obj;
         }
 
-        enum CreateFileTypes
+        public enum CreateFileTypes
         {
             MonoBehaviour,
             Shader,
@@ -467,7 +465,7 @@ namespace Unifind.Internal
             Prefab,
         }
 
-        enum GameObjectTypes
+        public enum GameObjectTypes
         {
             Empty,
             Cube,
