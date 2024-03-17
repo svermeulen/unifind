@@ -1,6 +1,6 @@
 {
   "name": "com.svermeulen.unifind",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "displayName": "Unifind",
   "description": "A fuzzy-finder for Unity Editor",
   "icon": "icon.png",
